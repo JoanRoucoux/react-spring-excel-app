@@ -1,28 +1,49 @@
 import React, { FC } from 'react';
-import { Button } from 'antd';
-import logo from './logo.svg';
-import './App.css';
+import {
+  Layout,
+  Typography,
+} from 'antd';
+import { UploadForm } from './components';
+
+const {
+  Header,
+  Content,
+  Footer,
+} = Layout;
 
 const App: FC = () => (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <Button type="primary">
-            Button
-        </Button>
-      </header>
-    </div>
-  );
+  <Layout>
+    <Header style={{
+      position: 'fixed',
+      zIndex: 1,
+      width: '100%',
+    }}
+    >
+      Excel App
+    </Header>
+    <Content
+      className="site-layout"
+      style={{
+        padding: '0 50px',
+        marginTop: 64,
+      }}
+    >
+      <div
+        className="site-layout-background"
+        style={{
+          padding: 24,
+          minHeight: 380,
+        }}
+      >
+        <Typography.Title>
+          Excel Form
+        </Typography.Title>
+      </div>
+    </Content>
+    <Footer style={{ textAlign: 'center' }}>
+      Antd Excel Form
+    </Footer>
+  </Layout>
+);
 
 export default App;
