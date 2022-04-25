@@ -1,9 +1,12 @@
 package com.example.exceldemo.common.util;
 
-import com.example.exceldemo.common.exception.TechnicalException;
-import com.example.exceldemo.common.model.ExcelError;
-import com.example.exceldemo.common.model.ExcelErrorType;
-import com.example.exceldemo.common.model.Person;
+import com.example.exceldemo.common.exception.ExcelException;
+import com.example.exceldemo.common.exception.InvalidHeaderException;
+import com.example.exceldemo.common.model.ExcelCell;
+import com.example.exceldemo.common.model.ExcelHeader;
+import com.example.exceldemo.common.model.ExcelRow;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
@@ -11,112 +14,105 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellReference;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.PropertyAccessorFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDate;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
-import static com.example.exceldemo.common.util.DateUtil.formatWebDateStringAsLocalDate;
-import static com.example.exceldemo.common.util.ExcelCellValidator.isEmailAddressValid;
-import static com.example.exceldemo.common.util.ExcelCellValidator.isPostCodeValid;
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class ExcelPOIHelper {
 
-@Component
-public class ExcelPOIHelper {
-
-    public Map<Person, List<ExcelError>> readExcel(InputStream excelFile) throws IOException {
-        Map<Person, List<ExcelError>> personListMap = new HashMap<>();
+    /**
+     * Read Excel file and extract data
+     *
+     * @param excelFile file to read
+     * @return list of ExcelRow
+     * @throws IOException if an error occurred while reading workbook
+     * @throws ExcelException if an error occurred while reading file
+     * @throws InvalidHeaderException if file doesn't have required header
+     */
+    public static List<ExcelRow> readExcel(InputStream excelFile) throws IOException, ExcelException, InvalidHeaderException {
+        List<ExcelRow> excelRowList = new ArrayList<>();
 
         // Creating a Workbook from an Excel file (.xls or .xlsx)
-        Workbook workbook = WorkbookFactory.create(excelFile);
+        try (Workbook workbook = WorkbookFactory.create(excelFile)) { // will automatically close workbook
+            // Getting the Sheet at index zero
+            Sheet firstSheet = workbook.getSheetAt(0);
 
-        // Getting the Sheet at index zero
-        Sheet firstSheet = workbook.getSheetAt(0);
+            // Creating a DataFormatter to format and get each cell's value as String
+            DataFormatter dataFormatter = new DataFormatter();
 
-        // Creating a DataFormatter to format and get each cell's value as String
-        DataFormatter dataFormatter = new DataFormatter();
-
-        // Iterating over all the rows in the sheet and fill map
-        Iterator<Row> rowIterator = firstSheet.rowIterator();
-        while (rowIterator.hasNext()) {
-            Row currentRow = rowIterator.next();
-            if (currentRow.getRowNum() == 1) {
-                continue; // skip the first row
+            // Iterating over all the rows in the sheet and fill list
+            Iterator<Row> rowIterator = firstSheet.rowIterator();
+            while (rowIterator.hasNext()) {
+                Row currentRow = rowIterator.next();
+                // Validating the header row
+                if (currentRow.getRowNum() == 1) {
+                    validateHeader(currentRow, dataFormatter);
+                    continue;
+                }
+                fillExcelRowList(currentRow, dataFormatter, excelRowList);
             }
-            this.fillPersonListMap(currentRow, dataFormatter, personListMap);
+
+            return excelRowList;
+        } catch (IOException e) {
+            throw new ExcelException("[ExcelPOIHelper][readExcel] An error occurred while reading workbook from Excel file");
         }
-
-        // Closing the workbook
-        workbook.close();
-
-        return personListMap;
     }
 
-    private void fillPersonListMap(Row currentRow, DataFormatter dataFormatter, Map<Person, List<ExcelError>> personListMap) {
-        Person person = new Person();
-        List<ExcelError> excelErrorList = new ArrayList<>();
-
-        // Iterating over all cells of currentRow
-        Iterator<Cell> cellIterator = currentRow.cellIterator();
+    /**
+     * Validate expected headers in the given row
+     *
+     * @param headerRow     header row
+     * @param dataFormatter data formatter
+     * @throws InvalidHeaderException if current cell value is not valid
+     */
+    private static void validateHeader(Row headerRow, DataFormatter dataFormatter) throws InvalidHeaderException {
+        Iterator<Cell> cellIterator = headerRow.cellIterator();
         while (cellIterator.hasNext()) {
             Cell currentCell = cellIterator.next();
             String currentCellValue = dataFormatter.formatCellValue(currentCell);
-            String columnLetter = CellReference.convertNumToColString(currentCell.getColumnIndex());
-            int columnIndex = currentCell.getColumnIndex();
-            switch (columnIndex) {
-                case 1 -> person.setCivility(currentCellValue);
-                case 2 -> person.setName(currentCellValue);
-                case 3 -> person.setFirstName(currentCellValue);
-                case 4 -> {
-                    LocalDate birthDate = null;
-                    try {
-                        birthDate = formatWebDateStringAsLocalDate(currentCellValue);
-                    } catch (TechnicalException e) {
-                        addExcelErrorToList(excelErrorList, currentRow, currentCellValue, columnLetter, ExcelErrorType.WRONG_BIRTHDATE_FORMAT);
-                    }
-                    person.setBirthDate(birthDate);
-                }
-                case 5 -> person.setBirthCity(currentCellValue);
-                case 6 -> person.setBirthDepartment(currentCellValue);
-                case 7 -> person.setBirthCountry(currentCellValue);
-                case 8 -> person.setAddress(currentCellValue);
-                case 9 -> {
-                    boolean isPostCodeValid = isPostCodeValid(currentCellValue);
-                    if (!isPostCodeValid) {
-                        this.addExcelErrorToList(excelErrorList, currentRow, currentCellValue, columnLetter, ExcelErrorType.WRONG_POSTCODE_FORMAT);
-                    }
-                    person.setPostCode(currentCellValue);
-                }
-                case 10 -> person.setCity(currentCellValue);
-                case 11 -> person.setCountry(currentCellValue);
-                case 12 -> person.setPhoneCode(currentCellValue);
-                case 13 -> person.setPhoneNumber(currentCellValue);
-                case 14 -> {
-                    boolean isEmailAddressValid = isEmailAddressValid(currentCellValue);
-                    if (!isEmailAddressValid) {
-                        this.addExcelErrorToList(excelErrorList, currentRow, currentCellValue, columnLetter, ExcelErrorType.WRONG_EMAIL_FORMAT);
-                    }
-                    person.setEmailAddress(currentCellValue);
-                }
+            if (!ExcelHeader.isValid(currentCellValue)) {
+                throw new InvalidHeaderException("[ExcelPOIHelper][validateHeader] Current cell value doesn't match any of the expected headers: " + currentCellValue);
             }
         }
-
-        personListMap.put(person, excelErrorList);
     }
 
-    private void addExcelErrorToList(List<ExcelError> excelErrorList, Row currentRow, String currentCellValue, String columnLetter, ExcelErrorType excelErrorType) {
-        ExcelError excelError = ExcelError.builder()
-                .rowIndex(currentRow.getRowNum())
-                .columnLetter(columnLetter)
-                .originalValue(currentCellValue)
-                .excelErrorType(excelErrorType)
-                .build();
-        excelErrorList.add(excelError);
+    /**
+     * Fill ExcelRow list object with extracted data
+     *
+     * @param currentRow current row
+     * @param dataFormatter data formatter
+     * @param excelRowList list of Excel rows
+     */
+    private static void fillExcelRowList(Row currentRow, DataFormatter dataFormatter, List<ExcelRow> excelRowList) {
+        BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(new ExcelRow());
+        beanWrapper.setPropertyValue("rowIndex", currentRow.getRowNum());
+
+        // Iterating over all cells of currentRow
+        // and dynamically building an ExcelRow
+        Iterator<Cell> cellIterator = currentRow.cellIterator();
+        Field[] fields = beanWrapper.getWrappedClass().getDeclaredFields();
+        List<String> columnNameList = Arrays.stream(fields).map(Field::getName).collect(Collectors.toList());
+
+        while (cellIterator.hasNext()) {
+            Cell currentCell = cellIterator.next();
+            int columnIndex = currentCell.getColumnIndex();
+            String columnName = columnNameList.get(columnIndex);
+            String currentCellValue = dataFormatter.formatCellValue(currentCell);
+            String columnLetter = CellReference.convertNumToColString(columnIndex);
+            ExcelCell excelCell = new ExcelCell(currentCellValue, columnLetter, columnIndex);
+            beanWrapper.setPropertyValue(columnName, excelCell);
+        }
+
+        excelRowList.add((ExcelRow) beanWrapper.getWrappedInstance());
     }
 
 }

@@ -1,13 +1,16 @@
 package com.example.exceldemo.common.util;
 
 import com.example.exceldemo.common.exception.TechnicalException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-public class DateUtil {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class DateUtil {
 
     public static final DateTimeFormatter WEB_DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 

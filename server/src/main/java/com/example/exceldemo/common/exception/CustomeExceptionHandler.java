@@ -2,11 +2,11 @@ package com.example.exceldemo.common.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class CustomeExceptionHandler {
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
@@ -21,6 +21,13 @@ public class CustomeExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.EXPECTATION_FAILED)
                 .body("Invalid file extension!");
+    }
+
+    @ExceptionHandler(InvalidHeaderException.class)
+    public ResponseEntity<String> handleInvalidHeaderException() {
+        return ResponseEntity
+                .status(HttpStatus.EXPECTATION_FAILED)
+                .body("Invalid header!");
     }
 
     @ExceptionHandler(ExcelException.class)
