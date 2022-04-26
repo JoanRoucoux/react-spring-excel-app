@@ -22,7 +22,7 @@ public final class PersonValidator {
     public static void validateExcelRow(ExcelRow excelRow, List<ExcelError> excelErrorList) {
         final int rowIndex = excelRow.getRowIndex();
         validateCell(excelRow.getEmailAddress(), EMAIL_REGEX_PATTERN, rowIndex, WRONG_EMAIL_FORMAT, excelErrorList);
-        validateCell(excelRow.getPostCode(), POSTCODE_REGEX_PATTERN, rowIndex, WRONG_POSTCODE_FORMAT, excelErrorList);
+        validateCell(excelRow.getZipcode(), POSTCODE_REGEX_PATTERN, rowIndex, WRONG_POSTCODE_FORMAT, excelErrorList);
     }
 
     private static void validateCell(ExcelCell excelCell, String pattern, int rowIndex, ExcelErrorType excelErrorType, List<ExcelError> excelErrorList) {

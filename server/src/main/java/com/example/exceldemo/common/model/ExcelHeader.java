@@ -13,15 +13,12 @@ public enum ExcelHeader {
     FIRSTNAME("Firstname"),
     LASTNAME("Lastname"),
     BIRTHDATE("Birthdate"),
-    BIRTH_CITY("Birth city"),
-    BIRTH_DEPARTMENT("Birth department"),
-    BIRTH_COUNTRY("Birth country"),
-    ADDRESS("Address"),
-    POSTCODE("Postcode"),
+    STREET_ADDRESS("Street Address"),
     CITY("City"),
-    COUNTRY("Country"),
-    PHONE_CODE("Phone code"),
-    EMAIL_ADDRESS("Email address");
+    STATE("State"),
+    ZIPCODE("Zipcode"),
+    MOBILE_NUMBER("Mobile Number"),
+    EMAIL_ADDRESS("Email Address");
 
     private String value;
 

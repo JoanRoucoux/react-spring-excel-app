@@ -8,35 +8,27 @@ import lombok.Data;
 public class Person {
 
     private String civility;
-    private String firstName;
-    private String lastName;
-    private String birthDate;
-    private String birthCity;
-    private String birthDepartment;
-    private String birthCountry;
-    private String address;
-    private String postCode;
+    private String firstname;
+    private String lastname;
+    private String birthdate;
+    private String streetAddress;
     private String city;
-    private String country;
-    private String phoneCode;
-    private String phoneNumber;
+    private String state;
+    private String zipcode;
+    private String mobileNumber;
     private String emailAddress;
 
     public static Person fromExcelRow(ExcelRow excelRow) {
         return builder()
                 .civility(excelRow.getCivility().getValue())
-                .firstName(excelRow.getFirstName().getValue())
-                .lastName(excelRow.getLastName().getValue())
-                .birthDate(excelRow.getBirthDate().getValue())
-                .birthCity(excelRow.getBirthCity().getValue())
-                .birthDepartment(excelRow.getBirthDepartment().getValue())
-                .birthCountry(excelRow.getBirthCountry().getValue())
-                .address(excelRow.getAddress().getValue())
-                .postCode(excelRow.getPostCode().getValue())
+                .firstname(excelRow.getFirstname().getValue())
+                .lastname(excelRow.getLastname().getValue())
+                .birthdate(excelRow.getBirthdate().getValue())
+                .streetAddress(excelRow.getStreetAddress().getValue())
                 .city(excelRow.getCity().getValue())
-                .country(excelRow.getCountry().getValue())
-                .phoneCode(excelRow.getPhoneCode().getValue())
-                .phoneNumber(excelRow.getPhoneNumber().getValue())
+                .state(excelRow.getState().getValue())
+                .zipcode(excelRow.getZipcode().getValue())
+                .mobileNumber(excelRow.getMobileNumber().getValue())
                 .emailAddress(excelRow.getEmailAddress().getValue())
                 .build();
     }

@@ -5,20 +5,16 @@ import lombok.Data;
 @Data
 public class ExcelRow {
 
-    private int rowIndex;
     private ExcelCell civility;
-    private ExcelCell firstName;
-    private ExcelCell lastName;
-    private ExcelCell birthDate;
-    private ExcelCell birthCity;
-    private ExcelCell birthDepartment;
-    private ExcelCell birthCountry;
-    private ExcelCell address;
-    private ExcelCell postCode;
+    private ExcelCell firstname;
+    private ExcelCell lastname;
+    private ExcelCell birthdate;
+    private ExcelCell streetAddress;
     private ExcelCell city;
-    private ExcelCell country;
-    private ExcelCell phoneCode;
-    private ExcelCell phoneNumber;
+    private ExcelCell state;
+    private ExcelCell zipcode;
+    private ExcelCell mobileNumber;
     private ExcelCell emailAddress;
+    private int rowIndex;
 
 }

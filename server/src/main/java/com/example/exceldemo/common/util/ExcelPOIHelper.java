@@ -54,7 +54,7 @@ public final class ExcelPOIHelper {
             while (rowIterator.hasNext()) {
                 Row currentRow = rowIterator.next();
                 // Validating the header row
-                if (currentRow.getRowNum() == 1) {
+                if (currentRow.getRowNum() == 0) {
                     validateHeader(currentRow, dataFormatter);
                     continue;
                 }

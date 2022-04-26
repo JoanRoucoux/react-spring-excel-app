@@ -50,7 +50,7 @@ public class ExcelRestController {
                     description = "Successful operation",
                     content = {
                             @Content(
-                                    mediaType = "application/vnd.ms-excel",
+                                    mediaType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                                     schema = @Schema(implementation = Resource.class)
                             )
                     }
