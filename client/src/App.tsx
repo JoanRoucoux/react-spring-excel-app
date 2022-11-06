@@ -1,46 +1,10 @@
-import React, { FC } from 'react';
-import {
-  Layout,
-  Typography,
-} from 'antd';
-// import { UploadForm } from './components';
+import React from 'react';
+import { Layout } from './commons';
+import { ExcelView } from './features/excel';
 
-const {
-  Header,
-  Content,
-  Footer,
-} = Layout;
-
-const App: FC = () => (
+const App = () => (
   <Layout>
-    <Header style={{
-      position: 'fixed',
-      zIndex: 1,
-      width: '100%',
-    }}
-    >
-      Excel App
-    </Header>
-    <Content
-      style={{
-        padding: '0 50px',
-        marginTop: 64,
-      }}
-    >
-      <div
-        style={{
-          padding: 24,
-          minHeight: 380,
-        }}
-      >
-        <Typography.Title>
-          Excel Form
-        </Typography.Title>
-      </div>
-    </Content>
-    <Footer style={{ textAlign: 'center' }}>
-      Antd Excel Form
-    </Footer>
+    <ExcelView />
   </Layout>
 );
 

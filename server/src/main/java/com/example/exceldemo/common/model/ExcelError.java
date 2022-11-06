@@ -10,6 +10,6 @@ public class ExcelError {
     private int rowIndex;
     private String columnLetter;
     private String originalValue;
-    private ExcelErrorType excelErrorType;
+    private String excelErrorType;
 
 }

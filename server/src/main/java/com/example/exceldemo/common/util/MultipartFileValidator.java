@@ -26,12 +26,12 @@ public final class MultipartFileValidator {
     /**
      * Validate file extensions
      *
-     * @param file file to validate
+     * @param file         file to validate
      * @param extensionSet file extensions to compare
      * @throws InvalidFileExtensionException when file extension is invalid
      */
     private static void validateFileExtension(MultipartFile file, Set<String> extensionSet) throws InvalidFileExtensionException {
-        String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
+        final String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
         if (!extensionSet.contains(fileExtension)) {
             throw new InvalidFileExtensionException("[MultipartFileValidator][validateFileExtension] Invalid file extension: " + fileExtension);
         }

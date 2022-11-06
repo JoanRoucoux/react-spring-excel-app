@@ -20,7 +20,7 @@ public enum ExcelHeader {
     MOBILE_NUMBER("Mobile Number"),
     EMAIL_ADDRESS("Email Address");
 
-    private String value;
+    private final String value;
 
     public static boolean isValid(String value) {
         return stream(values())
