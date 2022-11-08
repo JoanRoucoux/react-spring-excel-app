@@ -1,6 +1,6 @@
 # Excel Demo App
 
-This application allows you to download a Excel template file, upload it once completed, extract its content and then insert the data into the database. 
+This application allows you to download an Excel template file, upload it once completed, extract its content and then insert the data into the database. 
 If the file contains any error (invalid header, invalid extension or formatting errors for example), then it will be returned to you.
 
 ## Stack
