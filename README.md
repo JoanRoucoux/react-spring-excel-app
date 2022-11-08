@@ -24,10 +24,10 @@ First you need to clone this project.
 1. Go to client folder and run `npm install`
 2. Run the app in development mode with `npm start`
 3. Go to http://localhost:3000/
-4. You can use the resources in `demo-resources` to quickly see how it is working
+4. You can use the resources in `demo-resources` to help you
 
 ### Server
 1. Go to server folder and run `mvn install`
-2. Update application.properties to add your MongoDB personal values
+2. Update `application.properties` to add your MongoDB personal values
 3. Start server http://localhost:8080/
 5. If you need to, check the swagger http://localhost:8080/swagger-ui/index.html
