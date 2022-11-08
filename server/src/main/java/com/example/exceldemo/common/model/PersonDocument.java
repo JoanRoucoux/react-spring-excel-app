@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 public class PersonDocument {
 
     @Id
-    private int id;
+    private String id;
 
     @Valid
     private FullName fullName;

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class PersonDTO {
 
     @Schema(example = "01020304")
-    private int id;
+    private String id;
 
     private FullNameDTO fullName;
 

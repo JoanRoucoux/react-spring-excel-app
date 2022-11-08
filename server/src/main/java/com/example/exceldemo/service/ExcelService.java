@@ -37,7 +37,7 @@ public class ExcelService {
 
     private static final Logger logger = LoggerFactory.getLogger(ExcelService.class);
     private static final String EXCEL_TEMPLATE_RESOURCE_PATH = "templates/excel_template.xlsx";
-    private static final int MAX_ROWS_ALLOWED = 500;
+    private static final int MAX_ROWS_ALLOWED = 100;
 
     @Autowired
     private ExcelPOIHelper excelPOIHelper;

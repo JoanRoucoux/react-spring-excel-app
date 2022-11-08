@@ -14,7 +14,7 @@ const ERROR_REASONS = {
   ERR_FUNC_INVALID_FORMAT: 'err_func_invalid_format',
 };
 
-const EXCEL_ERROR_TYPE = {
+const EXCEL_ERROR_TYPES = {
   WRONG_CIVILITY_FORMAT: 'wrong_civility_format',
   WRONG_FIRSTNAME_FORMAT: 'wrong_firstname_format',
   WRONG_LASTNAME_FORMAT: 'wrong_lastname_format',
@@ -26,6 +26,19 @@ const EXCEL_ERROR_TYPE = {
   WRONG_MOBILE_NUMBER_FORMAT: 'wrong_mobile_number_format',
   WRONG_EMAIL_ADDRESS_FORMAT: 'wrong_email_address_format',
   DUPLICATE_EMAIL_ADDRESS: 'duplicate_email_address',
+};
+
+const excelErrorTypeLabels = {
+  [EXCEL_ERROR_TYPES.WRONG_CIVILITY_FORMAT]: 'civility',
+  [EXCEL_ERROR_TYPES.WRONG_FIRSTNAME_FORMAT]: 'firstname',
+  [EXCEL_ERROR_TYPES.WRONG_LASTNAME_FORMAT]: 'lastname',
+  [EXCEL_ERROR_TYPES.WRONG_BIRTHDATE_FORMAT]: 'birthdate',
+  [EXCEL_ERROR_TYPES.WRONG_STREET_ADDRESS_FORMAT]: 'street address',
+  [EXCEL_ERROR_TYPES.WRONG_CITY_FORMAT]: 'city',
+  [EXCEL_ERROR_TYPES.WRONG_STATE_FORMAT]: 'state',
+  [EXCEL_ERROR_TYPES.WRONG_ZIP_CODE_FORMAT]: 'zip code',
+  [EXCEL_ERROR_TYPES.WRONG_MOBILE_NUMBER_FORMAT]: 'mobile number',
+  [EXCEL_ERROR_TYPES.WRONG_EMAIL_ADDRESS_FORMAT]: 'email address',
 };
 
 /**
@@ -56,7 +69,7 @@ const getPersonsRows = (persons: PersonType[] | undefined): PersonRowType[] => {
  * Get error alert info
  *
  * @param {string} error current error
- * @returns
+ * @returns {AlertInfoType} error alert info
  */
 const getErrorAlertInfo = (error: string): AlertInfoType =>
   Matcher()
@@ -79,7 +92,7 @@ const getErrorAlertInfo = (error: string): AlertInfoType =>
       () => error === ERROR_REASONS.ERR_FUNC_INVALID_ROW_SIZE,
       () => ({
         title: 'Invalid Row Size!',
-        description: 'You have more than 500 allowed rows, please reduce it.',
+        description: 'You have more than 100 allowed rows, please reduce it.',
       })
     )
     .on(
@@ -102,11 +115,24 @@ const getErrorAlertInfo = (error: string): AlertInfoType =>
       description: null,
     })) as AlertInfoType;
 
+/**
+ * Returns correct Excel error label
+ *
+ * @param {string} excelErrorType current Excel error type
+ * @returns {string} label
+ */
+const getExcelErrorTypeLabel = (excelErrorType: string): string =>
+  excelErrorType === EXCEL_ERROR_TYPES.DUPLICATE_EMAIL_ADDRESS
+    ? 'Duplicate email address'
+    : `Wrong ${excelErrorTypeLabels[excelErrorType]} format`;
+
 const ExcelConfig = {
   ERROR_REASONS,
-  EXCEL_ERROR_TYPE,
+  EXCEL_ERROR_TYPES,
+  excelErrorTypeLabels,
   getPersonsRows,
   getErrorAlertInfo,
+  getExcelErrorTypeLabel,
 };
 
 export default ExcelConfig;
