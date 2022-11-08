@@ -3,6 +3,13 @@
 This application allows you to download a Excel template file, upload it once completed, extract its content and then insert the data into the database. 
 If the file contains any error (invalid header, invalid extension or formatting errors for example), then it will be returned to you.
 
+## Stack
+| Client  | Server | Database |
+| ------------- | ------------- | ------------- |
+| React | Spring Boot | MongoDB |
+| RTK Query | Apache POI  |
+| Material UI |
+
 ## Demo Excel file OK
 ![excel_ok](https://user-images.githubusercontent.com/21682157/200567252-45d68710-b908-4eee-9473-43f2a824d5ab.gif)
 
