@@ -1,46 +1,26 @@
-# Getting Started with Create React App
+# Excel Demo App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This application allows you to download a Excel template file, upload it once completed, extract its content and then insert the data into the database. 
+If the file contains any error (invalid header, invalid extension or formatting errors for example), then it will be returned to you.
 
-## Available Scripts
+## Demo Excel file OK
+![excel_ok](https://user-images.githubusercontent.com/21682157/200567252-45d68710-b908-4eee-9473-43f2a824d5ab.gif)
 
-In the project directory, you can run:
+## Demo Excel file NOK
+![excel_ko](https://user-images.githubusercontent.com/21682157/200567241-66260944-dd56-48a1-83f1-49ed1eb9938d.gif)
 
-### `npm start`
+## How to test?
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+First you need to clone this project.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Client
+1. Go to client folder and run `npm install`
+2. Run the app in development mode with `npm start`
+3. Go to http://localhost:3000/
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Server
+1. Go to server folder and run `mvn install`
+2. Update application.properties to add your MongoDB personal values
+3. Start server
+4. http://localhost:8080/
+5. If you need to, check the swagger http://localhost:8080/swagger-ui/index.html
