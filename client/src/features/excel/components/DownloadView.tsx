@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { AlertView } from '../../../commons';
-import { useLazyGetTemplateQuery } from '../../../commons/api/apiSlice';
+import { useLazyGetTemplateQuery } from '../api/excelSlice';
 
 const DownloadView = (): JSX.Element => {
   const [trigger, { isLoading, isError }] = useLazyGetTemplateQuery();

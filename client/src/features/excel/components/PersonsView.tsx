@@ -6,7 +6,7 @@ import { AlertView } from '../../../commons';
 import {
   useLazyGetPersonsQuery,
   useDeletePersonsMutation,
-} from '../../../commons/api/apiSlice';
+} from '../api/excelSlice';
 import ExcelConfig from '../config/ExcelConfig';
 
 const { getPersonsRows } = ExcelConfig;

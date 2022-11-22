@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import Utils from '../utils/Utils';
-import { Persontype } from '../../features/excel';
+import Utils from '../../../commons/utils/Utils';
+import { Persontype } from '..';
 
 const { donwloadFile } = Utils;
 

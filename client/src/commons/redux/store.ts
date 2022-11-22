@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { apiSlice } from '../api/apiSlice';
+import { apiSlice } from '../../features/excel/api/excelSlice';
 
 export default configureStore({
   reducer: {

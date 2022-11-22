@@ -3,7 +3,7 @@ import { Box, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { FixedSizeList } from 'react-window';
 import { AlertView, Utils } from '../../../commons';
-import { useSubmitFileMutation } from '../../../commons/api/apiSlice';
+import { useSubmitFileMutation } from '../api/excelSlice';
 import ExcelConfig from '../config/ExcelConfig';
 import ExcelErrorType from '../types/ExcelErrorType';
 import ExcelErrorItem from './ExcelErrorItem';
